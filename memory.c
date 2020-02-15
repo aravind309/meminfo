@@ -2,62 +2,75 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include<string.h>
-#include <time.h> 
-//aa123bb456cc
-void parse_string(char *p){
+#include <time.h>
+void parse_string(char *p) {
     while (*p) { // While there are more characters to process...
-    if ( isdigit(*p)){
-        // Found a number
-        long val = strtol(p, &p, 10); // Read number
-        printf("%ld\n", val); // and print it.
-    } else {
-        // Otherwise, move on to the next character.
-        p++;
+        if ( isdigit(*p)) {
+            // Found a number
+            long val = strtol(p, &p, 10); // Read number
+            printf("%ld\n", val); // and print it.
+        } else {
+            // Otherwise, move on to the next character.
+            p++;
+        }
     }
 }
+void arg_fail ()
+{
+
+    printf("Please check your arguments Ex: ./executable -d int_value \n");
+
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
 
-  if(argc >3) {
-      printf("Please check your arguments\n");
-      return 0;
-  }
+    int timing = 20;
 
-  int runs = 20;
-  if(argc == 3) 
-  {
-      if(!strcmp(argv[1],"-d"))
-      {
-          runs= atoi(argv[2]);
-      }
-  }
-  
-  char line[50];
- 
-int mema=0;
-char temp;
-time_t t1,t2;
-t1 = time(NULL);
-t2 = time(NULL);
-while((t2-t1) <= runs){
+    if((argc > 1) && (argc !=3)) {
+        arg_fail();
+        return 0;
+    }
 
-    FILE* in_file = fopen("/proc/meminfo","r");
-    if(!in_file) exit(-1);
-    int line_num=0;
-    while(fgets(line,50,in_file) != 0){
-    if(line_num == 1 || line_num == 2)
-    //parse_string(line);
-    printf("%s",line);
-    line_num++;
-    if(line_num==3) break;
-    t2 =time(NULL);
-  }
-  
-  //sleep(1);
-  //runs--;
-  fclose(in_file);
-}
-  
-  return 0;
+    if(argc == 3)
+    {
+
+
+        if(!strcmp(argv[1],"-d"))
+        {
+            timing= atoi(argv[2]);
+        }
+
+        else
+        {
+            arg_fail();
+            return 0;
+
+        }
+    }
+
+    char line[50];
+
+    char temp;
+    time_t t1,t2;
+    t1 = time(NULL);
+    t2 = time(NULL);
+    while((t2-t1) <= timing) {
+
+        FILE* in_file = fopen("/proc/meminfo","r");
+        if(!in_file) exit(-1);
+        int line_num=0;
+        while(fgets(line,50,in_file) != 0) {
+            if(line_num == 1 || line_num == 2)
+                //parse_string(line);
+                printf("%s",line);
+            line_num++;
+            if(line_num==3) break;
+            t2 =time(NULL);
+        }
+
+        sleep(1);
+        fclose(in_file);
+    }
+
+    return 0;
 }
