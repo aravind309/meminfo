@@ -3,6 +3,9 @@
 #include <unistd.h>
 #include<string.h>
 #include <time.h>
+
+
+
 void parse_string(char *p) {
     while (*p) { // While there are more characters to process...
         if ( isdigit(*p)) {
@@ -37,7 +40,18 @@ int main(int argc, char *argv[]) {
 
         if(!strcmp(argv[1],"-d"))
         {
-            timing= atoi(argv[2]);
+            //if(IsValidNumber(argv[2]))
+            if(atoi(argv[2])!=0)
+            {
+                timing= atoi(argv[2]);
+            }
+
+            else
+            {
+                arg_fail();
+                return 0;
+            }
+
         }
 
         else
@@ -54,7 +68,7 @@ int main(int argc, char *argv[]) {
     time_t t1,t2;
     t1 = time(NULL);
     t2 = time(NULL);
-    while((t2-t1) <= timing) {
+    while((t2-t1) < timing) {
 
         FILE* in_file = fopen("/proc/meminfo","r");
         if(!in_file) exit(-1);
@@ -71,6 +85,5 @@ int main(int argc, char *argv[]) {
         sleep(1);
         fclose(in_file);
     }
-
     return 0;
 }
