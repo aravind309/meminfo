@@ -6,23 +6,10 @@
 
 
 
-void parse_string(char *p) {
-    while (*p) { // While there are more characters to process...
-        if ( isdigit(*p)) {
-            // Found a number
-            long val = strtol(p, &p, 10); // Read number
-            printf("%ld\n", val); // and print it.
-        } else {
-            // Otherwise, move on to the next character.
-            p++;
-        }
-    }
-}
+
 void arg_fail ()
 {
-
     printf("Please check your arguments Ex: ./executable -d int_value \n");
-
 }
 
 int main(int argc, char *argv[]) {
@@ -64,7 +51,10 @@ int main(int argc, char *argv[]) {
 
     char line[50];
 
-    char temp;
+    char *word;
+    int old = 0;
+    int new = 0;
+     const char delim[2] = " "; 
     time_t t1,t2;
     t1 = time(NULL);
     t2 = time(NULL);
@@ -74,9 +64,18 @@ int main(int argc, char *argv[]) {
         if(!in_file) exit(-1);
         int line_num=0;
         while(fgets(line,50,in_file) != 0) {
-            if(line_num == 1 || line_num == 2)
+            if(line_num == 2 ) { //|| line_num == 2) {
+                word = strtok(line, delim);
+                while(word != NULL) {
+                    word = strtok(NULL, delim);
+                    old = new;
+                    new = atoi(word);
+                    printf("Delta(MemAvailable) : %d\n",new-old);
+                    break;
+                }
                 //parse_string(line);
-                printf("%s",line);
+                //printf("%s",line);
+            }
             line_num++;
             if(line_num==3) break;
             t2 =time(NULL);
