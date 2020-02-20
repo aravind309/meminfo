@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
     char *word;
     int old = 0;
     int new = 0;
-     const char delim[2] = " "; 
+    const char delim[2] = " ";
     time_t t1,t2;
     t1 = time(NULL);
     t2 = time(NULL);

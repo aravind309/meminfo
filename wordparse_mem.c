@@ -3,7 +3,7 @@
 #include <time.h>
 #include <unistd.h>
 
-                         int main()
+int main()
 {
 
     time_t t1, t2;
@@ -30,7 +30,7 @@
         while (fscanf(fp, "%s %s %*s", word, word2) == 2)
         {
             if (line_num == 1)
-            { //Change this line number to get appropriate data
+            {   //Change this line number to get appropriate data
                 new = atoi(word2);
                 printf("%s %d, delta : %d\n", word, new, new - old);
                 old = new;
